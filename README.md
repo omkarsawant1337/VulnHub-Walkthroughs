@@ -1,5 +1,4 @@
 # VulnHub-Walkthroughs
-# VulnHub Walkthroughs
 
 A comprehensive cybersecurity and penetration testing repository documenting hands-on VulnHub machine walkthroughs, vulnerability assessments, and offensive security methodologies. This repository demonstrates practical skills in reconnaissance, enumeration, exploitation, privilege escalation, post-exploitation, and professional security reporting.
 
