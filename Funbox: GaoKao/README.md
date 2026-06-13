@@ -100,7 +100,7 @@ This machine provides practical experience in service enumeration, authenticatio
 
 📄 Detailed Proof of Concept (PoC) report available in:
 
-**Funbox_GaoKao_Proof_of_Concept.pdf**
+**Funbox_GaoKao_Walkthrough.pdf**
 
 ## Disclaimer
 
