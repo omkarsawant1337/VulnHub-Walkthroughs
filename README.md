@@ -1,13 +1,13 @@
 <div align="center">
 
-# 🛡️ VulnHub Walkthroughs
+# 🛡️ VulnHub Walkthrough
 
 **A professional penetration testing knowledge base documenting real-world attack techniques, vulnerability research, and offensive security methodologies on VulnHub machines.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-VulnHub-orange?style=flat-square)](https://www.vulnhub.com/)
 [![Purpose](https://img.shields.io/badge/Purpose-Ethical%20Hacking-red?style=flat-square)](https://github.com/omkarsawant1337/VulnHub-Walkthroughs)
-[![Machines](https://img.shields.io/badge/Machines%20Completed-9-blueviolet?style=flat-square)](https://github.com/omkarsawant1337/VulnHub-Walkthroughs)
+[![Machines](https://img.shields.io/badge/Machines%20Completed-17-blueviolet?style=flat-square)](https://github.com/omkarsawant1337/VulnHub-Walkthroughs)
 [![Methodology](https://img.shields.io/badge/Methodology-PTES%20%7C%20OWASP-blue?style=flat-square)](https://github.com/omkarsawant1337/VulnHub-Walkthroughs)
 
 > All walkthroughs are conducted in isolated, authorized lab environments strictly for educational and research purposes.
