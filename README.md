@@ -229,6 +229,6 @@ Please follow the existing walkthrough format and ensure all content is original
 
 ⭐ **If this repository helped you, please consider starring it — it helps others discover this resource.**
 
-`#EthicalHacking` `#PenetrationTesting` `#VulnHub` `#CTF` `#OSCP` `#OffensiveSecurity` `#CyberSecurity` `#BugBounty` `#RedTeam` `#InfoSec`
+`#EthicalHacking` `#PenetrationTesting` `#VulnHub` `#CTF` `#OSCP` `#OffensiveSecurity` `#CyberSecurity` `#BugBounty` `#RedTeam` `#InfoSec` `#TryHackMe` `#CyberSecurityCommunity` `#SecurityAnalyst` `#LearningInPublic`
 
 </div>
