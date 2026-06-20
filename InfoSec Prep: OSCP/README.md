@@ -4,7 +4,7 @@
 
 **InfoSec Prep: OSCP** is a beginner-friendly VulnHub machine that focuses on web enumeration, WordPress reconnaissance, information disclosure, encoded data analysis, SSH key authentication, and Linux privilege escalation through SUID misconfiguration.
 
-The challenge demonstrates how exposed sensitive data, weak operational security practices, and improper privilege configurations can be chained together to achieve full system compromise. :contentReference[oaicite:0]{index=0}
+The challenge demonstrates how exposed sensitive data, weak operational security practices, and improper privilege configurations can be chained together to achieve full system compromise.
 
 ## Machine Information
 
