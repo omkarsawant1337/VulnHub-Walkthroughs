@@ -2,7 +2,7 @@
 
 ## Overview
 
-**Masashi: 1** is an easy-level VulnHub machine created by **Sv5 Donald** that focuses on enumeration, hidden clues, alternative protocols, password discovery using CeWL, SSH access, and Linux privilege escalation through a misconfigured sudo rule. The challenge emphasizes the importance of manual enumeration, inspecting robots.txt, discovering UDP services, and leveraging GTFOBins during privilege escalation. :contentReference[oaicite:0]{index=0}
+**Masashi: 1** is an easy-level VulnHub machine created by **Sv5 Donald** that focuses on enumeration, hidden clues, alternative protocols, password discovery using CeWL, SSH access, and Linux privilege escalation through a misconfigured sudo rule. The challenge emphasizes the importance of manual enumeration, inspecting robots.txt, discovering UDP services, and leveraging GTFOBins during privilege escalation. 
 
 ## Machine Information
 
@@ -152,7 +152,7 @@ A misconfigured sudo rule allowed execution of:
 /usr/bin/vi /tmp/*
 ```
 
-as root without requiring a password, resulting in immediate privilege escalation through a known GTFOBins technique. :contentReference[oaicite:1]{index=1}
+as root without requiring a password, resulting in immediate privilege escalation through a known GTFOBins technique.
 
 ## Disclaimer
 
