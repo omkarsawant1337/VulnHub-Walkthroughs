@@ -4,7 +4,7 @@
 
 **Stapler: 1** is a Medium-difficulty VulnHub machine created by **g0tmi1k**. The machine contains multiple exposed services, legacy software, and intentional misconfigurations designed to encourage comprehensive enumeration and vulnerability assessment.
 
-The primary attack path leverages an outdated Samba installation vulnerable to **CVE-2017-7494 (is_known_pipename)**, allowing unauthenticated remote code execution and direct root access. :contentReference[oaicite:0]{index=0}
+The primary attack path leverages an outdated Samba installation vulnerable to **CVE-2017-7494 (is_known_pipename)**, allowing unauthenticated remote code execution and direct root access. 
 
 ## Machine Information
 
@@ -80,7 +80,7 @@ The primary attack path leverages an outdated Samba installation vulnerable to *
 - Samba 4.3.9 exposed.
 - MySQL accessible externally.
 - Multiple web services running.
-- Large attack surface available. :contentReference[oaicite:1]{index=1}
+- Large attack surface available. 
 
 ## Vulnerabilities Identified
 
@@ -96,7 +96,7 @@ Affected by:
 CVE-2017-7494
 ```
 
-The vulnerability allows remote code execution through arbitrary shared library loading. :contentReference[oaicite:2]{index=2}
+The vulnerability allows remote code execution through arbitrary shared library loading. 
 
 ### 2. Excessive Service Exposure
 
@@ -109,11 +109,11 @@ The host exposes multiple services simultaneously:
 - MySQL
 - Multiple Web Servers
 
-This significantly increases the attack surface. :contentReference[oaicite:3]{index=3}
+This significantly increases the attack surface. 
 
 ### 3. Writable Samba Share
 
-The Samba exploit relies on uploading a malicious shared object into a writable share and forcing Samba to load it. :contentReference[oaicite:4]{index=4}
+The Samba exploit relies on uploading a malicious shared object into a writable share and forcing Samba to load it. 
 
 ## Service Enumeration
 
@@ -131,7 +131,7 @@ However, directory listing was restricted:
 PASV failed: 550 Permission denied
 ```
 
-No useful information was obtained. :contentReference[oaicite:5]{index=5}
+No useful information was obtained. 
 
 ### Web Enumeration
 
@@ -143,7 +143,7 @@ Port 12380 revealed:
 Tim, we need to-do better next year for Initech
 ```
 
-No direct attack path was identified through the web applications. :contentReference[oaicite:6]{index=6}
+No direct attack path was identified through the web applications. 
 
 ## Exploitation
 
@@ -167,8 +167,6 @@ Mapped to:
 CVE-2017-7494
 ```
 
-:contentReference[oaicite:7]{index=7}
-
 ### Metasploit Exploitation
 
 Load the exploit module:
@@ -190,7 +188,7 @@ Execute:
 exploit
 ```
 
-Metasploit uploaded a malicious shared object and successfully triggered code execution through Samba. :contentReference[oaicite:8]{index=8}
+Metasploit uploaded a malicious shared object and successfully triggered code execution through Samba. 
 
 ## Initial Access
 
@@ -218,7 +216,7 @@ Output:
 root
 ```
 
-The vulnerability provided immediate root access without requiring privilege escalation. :contentReference[oaicite:9]{index=9}
+The vulnerability provided immediate root access without requiring privilege escalation. 
 
 ## Flag Capture
 
@@ -244,7 +242,7 @@ Read the flag:
 cat flag.txt
 ```
 
-Root compromise successfully achieved. :contentReference[oaicite:10]{index=10}
+Root compromise successfully achieved. 
 
 ## Attack Chain Summary
 
@@ -280,7 +278,7 @@ Root compromise successfully achieved. :contentReference[oaicite:10]{index=10}
 
 ## Conclusion
 
-Stapler: 1 is an excellent VulnHub machine for learning service enumeration, vulnerability assessment, CVE research, and remote code execution. By identifying an outdated Samba service and exploiting CVE-2017-7494, full root access was obtained without requiring any privilege escalation. :contentReference[oaicite:11]{index=11}
+Stapler: 1 is an excellent VulnHub machine for learning service enumeration, vulnerability assessment, CVE research, and remote code execution. By identifying an outdated Samba service and exploiting CVE-2017-7494, full root access was obtained without requiring any privilege escalation. 
 
 ---
 
