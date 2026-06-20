@@ -4,7 +4,7 @@
 
 **Lazy SysAdmin: 1** is a beginner-friendly VulnHub machine that focuses on network enumeration, SMB share assessment, WordPress configuration analysis, credential harvesting, SSH access, and Linux privilege escalation through excessive sudo permissions.
 
-The challenge demonstrates how exposed SMB shares, improperly protected application configuration files, weak credentials, and overly permissive sudo privileges can be chained together to achieve complete system compromise. :contentReference[oaicite:0]{index=0}
+The challenge demonstrates how exposed SMB shares, improperly protected application configuration files, weak credentials, and overly permissive sudo privileges can be chained together to achieve complete system compromise. 
 
 ## Machine Information
 
