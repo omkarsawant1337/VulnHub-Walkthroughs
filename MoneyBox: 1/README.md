@@ -2,7 +2,7 @@
 
 ## Overview
 
-**MoneyBox: 1** is an Easy–Medium difficulty VulnHub machine created by **Kirthik_T**. The box focuses on web enumeration, source code analysis, anonymous FTP abuse, steganography, SSH brute forcing, lateral movement using SSH keys, and Linux privilege escalation through a misconfigured sudo rule. :contentReference[oaicite:0]{index=0}
+**MoneyBox: 1** is an Easy–Medium difficulty VulnHub machine created by **Kirthik_T**. The box focuses on web enumeration, source code analysis, anonymous FTP abuse, steganography, SSH brute forcing, lateral movement using SSH keys, and Linux privilege escalation through a misconfigured sudo rule.
 
 ## Machine Information
 
@@ -145,7 +145,7 @@
 
 ### Lateral Movement
 
-- SSH key trust relationship enabled access to another user account (**lily**) without requiring credentials. :contentReference[oaicite:1]{index=1}
+- SSH key trust relationship enabled access to another user account (**lily**) without requiring credentials. 
 
 ### Privilege Escalation
 
@@ -161,7 +161,7 @@ without requiring a password:
 sudo perl -e 'exec "/bin/sh";'
 ```
 
-This resulted in immediate root access. :contentReference[oaicite:2]{index=2}
+This resulted in immediate root access. 
 
 ## Technical Highlights
 
