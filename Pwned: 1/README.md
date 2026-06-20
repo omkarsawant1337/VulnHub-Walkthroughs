@@ -85,7 +85,7 @@ During enumeration, a hidden administration page exposed hardcoded credentials:
 // if ($un=='ftpuser' && $pw=='B0ss_B!TcH') {
 ```
 
-These credentials allowed access to the FTP service where sensitive files were stored, including an SSH private key. :contentReference[oaicite:1]{index=1}
+These credentials allowed access to the FTP service where sensitive files were stored, including an SSH private key. 
 
 ## Privilege Escalation
 
@@ -107,7 +107,7 @@ The script executed user-controlled input directly:
 $msg 2> /dev/null
 ```
 
-which allowed command injection and privilege escalation to user **selena**. :contentReference[oaicite:2]{index=2}
+which allowed command injection and privilege escalation to user **selena**. 
 
 ## Docker Group Abuse
 
@@ -124,7 +124,7 @@ Using a known GTFOBins Docker technique:
 docker run -v /:/mnt --rm -it alpine chroot /mnt /bin/sh
 ```
 
-resulted in full root access to the host system. :contentReference[oaicite:3]{index=3}
+resulted in full root access to the host system.
 
 ## Security Lessons Learned
 
