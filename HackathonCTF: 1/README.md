@@ -4,7 +4,7 @@
 
 **HackathonCTF: 1** is a beginner-friendly VulnHub machine created by **Somu Sen** that focuses on web enumeration, information disclosure, credential discovery, SSH brute forcing, password recovery, and Linux privilege escalation through a vulnerable sudo configuration.
 
-The challenge demonstrates how seemingly harmless files such as **robots.txt**, hidden web pages, Bash history files, and improperly stored credentials can be chained together to achieve complete system compromise. :contentReference[oaicite:0]{index=0}
+The challenge demonstrates how seemingly harmless files such as **robots.txt**, hidden web pages, Bash history files, and improperly stored credentials can be chained together to achieve complete system compromise. 
 
 ## Machine Information
 
@@ -147,7 +147,7 @@ The challenge demonstrates how seemingly harmless files such as **robots.txt**, 
 
 - Username recovered from page source code.
 - Password discovered through Hydra brute-force attack.
-- SSH access obtained as user **test**. :contentReference[oaicite:1]{index=1}
+- SSH access obtained as user **test**. 
 
 ### Credential Discovery
 
@@ -157,7 +157,7 @@ Bash history analysis revealed references to:
 /media/floppy/media/imp
 ```
 
-A Base64-encoded credential was recovered and decoded, providing additional information useful during the attack chain. :contentReference[oaicite:2]{index=2}
+A Base64-encoded credential was recovered and decoded, providing additional information useful during the attack chain. 
 
 ### Privilege Escalation
 
@@ -173,7 +173,7 @@ This vulnerable configuration was exploitable via **CVE-2019-14287**, allowing p
 sudo -u#-1 /bin/bash
 ```
 
-which bypasses the intended sudo restriction. :contentReference[oaicite:3]{index=3}
+which bypasses the intended sudo restriction. 
 
 ## Technical Highlights
 
